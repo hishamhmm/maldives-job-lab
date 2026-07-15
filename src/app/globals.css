@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --night:    #0D2B35;
+  --deep:     #134657;
+  --teal:     #1A7A8A;
+  --reef:     #22AABB;
+  --mist:     #E8F4F6;
+  --sand:     #FBF8F3;
+  --dusk:     #F0EAE0;
+  --coral:    #E85D3A;
+  --coral-lt: #FDEEE9;
+  --gold:     #D4A843;
+  --gold-lt:  #FDF6E3;
+  --ink:      #0D2B35;
+  --body-color: #3D5A62;
+  --background: #FBF8F3;
+  --foreground: #0D2B35;
+  --card: #FFFFFF;
+  --card-foreground: #0D2B35;
+  --popover: #FFFFFF;
+  --popover-foreground: #0D2B35;
+  --primary: #1A7A8A;
+  --primary-foreground: #FFFFFF;
+  --secondary: #E8F4F6;
+  --secondary-foreground: #0D2B35;
+  --muted: #E8F4F6;
+  --muted-foreground: #7A9BA3;
+  --accent: #E8F4F6;
+  --accent-foreground: #0D2B35;
+  --destructive: #E85D3A;
+  --input: #D6E8EB;
+  --ring: #1A7A8A;
+  --border: #D6E8EB;
+  --radius: 0.625rem;
+}
+
+@theme inline {
+  --font-sans: 'Inter', sans-serif;
+  --font-heading: 'Fraunces', serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+}
+
+.f-display {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+.f-serif {
+  font-family: 'Fraunces', serif;
+}
