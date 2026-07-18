@@ -347,4 +347,4 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
       </div>
     </>
   )
-}
+}// Sat Jul 18 15:05:32 +05 2026
