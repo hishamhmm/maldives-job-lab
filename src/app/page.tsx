@@ -59,7 +59,7 @@ export default function HomePage() {
             </p>
             <div className="hero-actions">
               <Link href="/jobs" style={{ background: '#0A0A0A', color: '#fff', borderRadius: 9, padding: '.75rem 1.75rem', fontSize: '.875rem', fontWeight: 600, textDecoration: 'none' }}>
-                Browse 2,847 Jobs →
+                Browse Jobs →
               </Link>
               <Link href="/employers/pricing" style={{ background: '#fff', color: '#0A0A0A', border: '1.5px solid #E5E5E5', borderRadius: 9, padding: '.75rem 1.75rem', fontSize: '.875rem', fontWeight: 500, textDecoration: 'none' }}>
                 Post a Job — MVR 500/mo
