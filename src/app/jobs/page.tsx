@@ -146,12 +146,12 @@ function JobsContent() {
         .ftab:hover { color: #0A0A0A; }
         .ftab.on { color: #0A0A0A; border-bottom-color: #0A0A0A; font-weight: 600; }
         .jobs-body {
-          display: grid;
-          grid-template-columns: 260px 1fr;
-          gap: 0;
-          max-width: 1400px;
-          margin: 0 auto;
-        }
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 0;
+  overflow-x: hidden;
+  width: 100%;
+}
         .sidebar {
           background: #fff;
           border-right: 1px solid #F0F0F0;
@@ -247,17 +247,17 @@ function JobsContent() {
         .job-row:hover { background: #F8F8F8; }
         .job-row:last-child { border-bottom: none; }
         .jr-logo {
-          width: 44px;
-          height: 44px;
-          border-radius: 10px;
-          background: #F0F7F8;
-          border: 1px solid #EEE;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.15rem;
-          flex-shrink: 0;
-        }
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: #F0F7F8;
+  border: 1px solid #EEE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
         .jr-main { flex: 1; min-width: 0; }
         .jr-title {
           font-size: .92rem;
@@ -285,12 +285,14 @@ function JobsContent() {
           border-radius: 100px;
         }
         .jr-right {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-end;
-          gap: .4rem;
-          flex-shrink: 0;
-        }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+  min-width: 260px;
+  justify-content: flex-end;
+}
         .jr-salary {
           font-family: Fraunces, serif;
           font-weight: 700;
