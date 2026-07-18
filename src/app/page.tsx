@@ -6,113 +6,189 @@ export default function HomePage() {
   return (
     <>
       <style>{`
-        .hero-actions { display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 2rem; }
-        .hero-preview { display: flex; flex-direction: column; gap: .75rem; background: #FBF8F3; border: 1px solid #E5E5E5; border-radius: 16px; padding: 1.5rem; }
-        .cats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .5rem; }
-        .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
-        .salary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; }
-        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-        .community-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-        .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 2.5rem; }
-        .cta-band-btns { display: flex; gap: .6rem; flex-wrap: wrap; }
-        .emp-rail { display: flex; gap: .75rem; overflow-x: auto; padding-bottom: .5rem; scrollbar-width: none; }
+        *, *::before, *::after { box-sizing: border-box; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(.85); } }
+        .fade-up { animation: fadeUp .8s cubic-bezier(.16,1,.3,1) both; }
+        .fade-up-2 { animation: fadeUp .8s .15s cubic-bezier(.16,1,.3,1) both; }
+        .fade-up-3 { animation: fadeUp .8s .3s cubic-bezier(.16,1,.3,1) both; }
+        .fade-up-4 { animation: fadeUp .8s .45s cubic-bezier(.16,1,.3,1) both; }
+        .hero-section { padding: clamp(6rem,12vw,10rem) clamp(1.5rem,6vw,6rem) clamp(4rem,8vw,7rem); background: #fff; text-align: center; border-bottom: 1px solid #F0F0F0; }
+        .hero-eyebrow { display: inline-flex; align-items: center; gap: .5rem; font-size: .72rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #1A7A8A; margin-bottom: 2rem; }
+        .hero-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: #22AABB; animation: pulse 2s ease-in-out infinite; }
+        .hero-h1 { font-family: Fraunces, serif; font-size: clamp(3rem,7vw,6rem); font-weight: 700; color: #0A0A0A; line-height: 1.02; letter-spacing: -.04em; margin-bottom: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto; }
+        .hero-h1 em { font-style: italic; color: #1A7A8A; }
+        .hero-sub { font-size: clamp(1rem,2vw,1.2rem); color: #888; line-height: 1.7; max-width: 520px; margin: 0 auto 2.5rem; }
+        .hero-actions { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem; }
+        .hero-trust { display: flex; align-items: center; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+        .htrust-item { display: flex; flex-direction: column; align-items: center; gap: .2rem; }
+        .htrust-num { font-family: Fraunces, serif; font-weight: 700; font-size: 1.5rem; color: #0A0A0A; letter-spacing: -.02em; line-height: 1; }
+        .htrust-label { font-size: .72rem; color: #aaa; font-weight: 500; letter-spacing: .04em; }
+        .htrust-div { width: 1px; height: 28px; background: #E5E5E5; }
+        .btn-primary { display: inline-flex; align-items: center; background: #0A0A0A; color: #fff; border-radius: 100px; padding: .75rem 1.75rem; font-size: .875rem; font-weight: 600; text-decoration: none; transition: all .2s; border: none; cursor: pointer; font-family: Inter, sans-serif; }
+        .btn-primary:hover { background: #1A7A8A; transform: scale(1.02); }
+        .btn-secondary { display: inline-flex; align-items: center; background: transparent; color: #0A0A0A; border-radius: 100px; padding: .75rem 1.75rem; font-size: .875rem; font-weight: 500; text-decoration: none; border: 1.5px solid #E0E0E0; transition: all .2s; cursor: pointer; font-family: Inter, sans-serif; }
+        .btn-secondary:hover { border-color: #0A0A0A; transform: scale(1.02); }
+        .ticker-wrap { background: #FAFAFA; border-bottom: 1px solid #F0F0F0; padding: .6rem 0; overflow: hidden; }
+        .ticker-inner { display: flex; width: max-content; animation: ticker 40s linear infinite; }
+        .ticker-item { display: inline-flex; align-items: center; gap: .6rem; padding: 0 2.5rem; font-size: .75rem; color: #999; white-space: nowrap; }
+        .ticker-co { font-weight: 600; color: #444; }
+        .ticker-badge { background: #E85D3A; color: #fff; border-radius: 100px; padding: .06rem .4rem; font-size: .6rem; font-weight: 700; letter-spacing: .04em; }
+        .ticker-sep { color: #ddd; }
+        .sec { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,6vw,6rem); }
+        .sec-white { background: #fff; }
+        .sec-gray { background: #FAFAFA; }
+        .sec-teal { background: #0D2B35; }
+        .sec-label { font-size: .68rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #1A7A8A; display: block; margin-bottom: .75rem; }
+        .sec-label-light { color: #22AABB; }
+        .sec-title { font-family: Fraunces, serif; font-weight: 700; font-size: clamp(2rem,4vw,3rem); color: #0A0A0A; letter-spacing: -.03em; line-height: 1.1; }
+        .sec-title-light { color: #fff; }
+        .sec-body { font-size: 1rem; color: #888; line-height: 1.75; max-width: 480px; margin-top: .75rem; }
+        .sec-body-light { color: rgba(255,255,255,.5); }
+        .sec-hd { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 3rem; }
+        .sec-link { font-size: .82rem; font-weight: 500; color: #1A7A8A; text-decoration: none; white-space: nowrap; opacity: .8; transition: opacity .15s; }
+        .sec-link:hover { opacity: 1; }
+        .feature-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); border-top: 1px solid #F0F0F0; border-left: 1px solid #F0F0F0; }
+        .feature-item { padding: 2.5rem 2rem; border-right: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; transition: background .2s; }
+        .feature-item:hover { background: #FAFAFA; }
+        .fi-icon { font-size: 1.5rem; margin-bottom: 1.25rem; display: block; }
+        .fi-title { font-family: Fraunces, serif; font-weight: 600; font-size: 1rem; color: #0A0A0A; margin-bottom: .5rem; letter-spacing: -.01em; }
+        .fi-desc { font-size: .82rem; color: #888; line-height: 1.7; margin-bottom: .75rem; }
+        .fi-vs { font-size: .72rem; color: #bbb; text-decoration: line-through; display: block; margin-bottom: .2rem; }
+        .fi-we { font-size: .72rem; color: #1A7A8A; font-weight: 600; }
+        .cats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1px; background: #F0F0F0; border: 1px solid #F0F0F0; border-radius: 16px; overflow: hidden; }
+        .cat-item { background: #fff; padding: 1.5rem 1.25rem; display: flex; flex-direction: column; gap: .4rem; text-decoration: none; color: inherit; transition: background .15s; cursor: pointer; }
+        .cat-item:hover { background: #F7F7F7; }
+        .cat-icon { font-size: 1.4rem; line-height: 1; margin-bottom: .25rem; }
+        .cat-name { font-size: .82rem; font-weight: 600; color: #0A0A0A; line-height: 1.3; }
+        .cat-count { font-size: .7rem; color: #aaa; }
+        .salary-table { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; overflow: hidden; }
+        .s-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.05); border-right: 1px solid rgba(255,255,255,.05); transition: background .15s; }
+        .s-row:hover { background: rgba(255,255,255,.03); }
+        .s-role { font-size: .84rem; color: rgba(255,255,255,.55); }
+        .s-range { font-family: Fraunces, serif; font-weight: 700; font-size: .9rem; color: #22AABB; white-space: nowrap; }
+        .emp-rail { display: flex; gap: 1rem; overflow-x: auto; padding-bottom: .5rem; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
         .emp-rail::-webkit-scrollbar { display: none; }
-        .hero-trust { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        .emp-card { background: #fff; border: 1px solid #F0F0F0; border-radius: 16px; padding: 1.5rem; min-width: 200px; flex-shrink: 0; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: .5rem; transition: all .2s; }
+        .emp-card:hover { border-color: #E0E0E0; box-shadow: 0 8px 32px rgba(0,0,0,.06); transform: translateY(-2px); }
+        .emp-logo { width: 48px; height: 48px; border-radius: 12px; background: #F5F5F5; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: .25rem; }
+        .emp-name { font-family: Fraunces, serif; font-weight: 600; font-size: .9rem; color: #0A0A0A; line-height: 1.3; }
+        .emp-type { font-size: .72rem; color: #aaa; }
+        .emp-open { display: inline-flex; align-items: center; gap: .3rem; font-size: .72rem; font-weight: 600; color: #1A7A8A; margin-top: .25rem; }
+        .emp-dot { width: 5px; height: 5px; border-radius: 50%; background: #22AABB; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: #F0F0F0; border: 1px solid #F0F0F0; border-radius: 20px; overflow: hidden; }
+        .price-card { background: #fff; padding: 2.5rem 2rem; position: relative; transition: background .15s; }
+        .price-card.featured { background: #0A0A0A; }
+        .price-badge { display: inline-block; background: #E85D3A; color: #fff; font-size: .62rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: .25rem .75rem; border-radius: 100px; margin-bottom: 1.25rem; }
+        .price-name { font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #aaa; margin-bottom: .5rem; }
+        .price-card.featured .price-name { color: rgba(255,255,255,.4); }
+        .price-amount { font-family: Fraunces, serif; font-weight: 700; font-size: 2.5rem; color: #0A0A0A; line-height: 1; letter-spacing: -.03em; margin-bottom: .3rem; }
+        .price-card.featured .price-amount { color: #fff; }
+        .price-per { font-size: .75rem; color: #aaa; margin-bottom: 2rem; }
+        .price-card.featured .price-per { color: rgba(255,255,255,.35); }
+        .price-features { list-style: none; display: flex; flex-direction: column; gap: .65rem; margin-bottom: 2rem; }
+        .price-features li { font-size: .82rem; color: #555; display: flex; align-items: flex-start; gap: .5rem; line-height: 1.5; }
+        .price-card.featured .price-features li { color: rgba(255,255,255,.6); }
+        .pf-check { color: #1A7A8A; flex-shrink: 0; font-size: .8rem; }
+        .btn-price { width: 100%; border-radius: 100px; padding: .7rem; font-size: .82rem; font-weight: 600; cursor: pointer; border: 1.5px solid #E0E0E0; background: #fff; color: #0A0A0A; transition: all .2s; font-family: Inter, sans-serif; }
+        .btn-price:hover { border-color: #0A0A0A; }
+        .price-card.featured .btn-price { background: #E85D3A; border-color: #E85D3A; color: #fff; }
+        .price-card.featured .btn-price:hover { background: #c94a2a; border-color: #c94a2a; }
+        .comm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #F0F0F0; border: 1px solid #F0F0F0; border-radius: 16px; overflow: hidden; }
+        .comm-card { background: #fff; padding: 2.5rem 2rem; display: flex; flex-direction: column; gap: .6rem; transition: background .15s; }
+        .comm-card:hover { background: #FAFAFA; }
+        .comm-icon { font-size: 2rem; margin-bottom: .5rem; }
+        .comm-name { font-family: Fraunces, serif; font-weight: 600; font-size: 1rem; color: #0A0A0A; letter-spacing: -.01em; }
+        .comm-desc { font-size: .82rem; color: #888; line-height: 1.65; }
+        .comm-link { font-size: .78rem; font-weight: 600; color: #1A7A8A; text-decoration: none; margin-top: auto; padding-top: .5rem; display: inline-flex; align-items: center; gap: .25rem; transition: gap .15s; }
+        .comm-link:hover { gap: .5rem; }
+        .how-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.06); border-radius: 16px; overflow: hidden; }
+        .how-card { padding: 2.5rem 2rem; background: rgba(255,255,255,.02); transition: background .15s; }
+        .how-card:hover { background: rgba(255,255,255,.05); }
+        .how-num { font-family: Fraunces, serif; font-size: 3rem; font-weight: 700; color: rgba(255,255,255,.06); line-height: 1; margin-bottom: 1.25rem; }
+        .how-icon { font-size: 1.25rem; margin-bottom: 1rem; display: block; }
+        .how-title { font-family: Fraunces, serif; font-weight: 600; font-size: .95rem; color: #fff; margin-bottom: .5rem; }
+        .how-desc { font-size: .8rem; color: rgba(255,255,255,.38); line-height: 1.7; }
+        .cta-section { background: #0A0A0A; padding: clamp(5rem,10vw,8rem) clamp(1.5rem,6vw,6rem); text-align: center; }
+        .cta-label { color: #22AABB; }
+        .cta-title { font-family: Fraunces, serif; font-weight: 700; font-size: clamp(2rem,5vw,3.5rem); color: #fff; letter-spacing: -.03em; line-height: 1.1; margin: .75rem auto 1.25rem; max-width: 700px; }
+        .cta-sub { font-size: .95rem; color: rgba(255,255,255,.4); margin-bottom: 2.5rem; }
+        .cta-actions { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
+        .btn-cta-primary { display: inline-flex; align-items: center; background: #fff; color: #0A0A0A; border-radius: 100px; padding: .85rem 2rem; font-size: .9rem; font-weight: 700; text-decoration: none; transition: all .2s; font-family: Inter, sans-serif; }
+        .btn-cta-primary:hover { background: #F0F0F0; transform: scale(1.02); }
+        .btn-cta-secondary { display: inline-flex; align-items: center; background: transparent; color: rgba(255,255,255,.6); border-radius: 100px; padding: .85rem 2rem; font-size: .9rem; font-weight: 500; text-decoration: none; border: 1.5px solid rgba(255,255,255,.15); transition: all .2s; font-family: Inter, sans-serif; }
+        .btn-cta-secondary:hover { border-color: rgba(255,255,255,.4); color: #fff; }
         @media (max-width: 768px) {
-          .hero-preview { display: none !important; }
-          .hero-actions { flex-direction: column; }
-          .hero-actions a { text-align: center; }
-          .why-grid { grid-template-columns: 1fr !important; }
-          .community-grid { grid-template-columns: 1fr !important; }
-          .how-grid { grid-template-columns: 1fr !important; }
-          .pricing-grid { grid-template-columns: 1fr !important; }
-          .cats-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .salary-grid { grid-template-columns: 1fr !important; }
-          .footer-grid { grid-template-columns: 1fr 1fr !important; }
-          .cta-band-btns { flex-direction: column; width: 100%; }
-          .cta-band-btns a { text-align: center; }
-          .hero-trust { gap: .5rem; }
+          .hero-section { text-align: left; padding-top: 4rem; }
+          .hero-actions { justify-content: flex-start; }
+          .hero-trust { justify-content: flex-start; gap: 1.25rem; }
+          .feature-strip { grid-template-columns: 1fr; }
+          .cats-grid { grid-template-columns: repeat(2, 1fr); }
+          .salary-table { grid-template-columns: 1fr; }
+          .pricing-grid { grid-template-columns: 1fr; }
+          .comm-grid { grid-template-columns: 1fr; }
+          .how-grid { grid-template-columns: 1fr 1fr; }
+          .cta-section { text-align: left; }
+          .cta-actions { justify-content: flex-start; }
+          .htrust-div { display: none; }
+          .hero-trust { gap: 1rem; }
         }
         @media (max-width: 480px) {
-          .cats-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .footer-grid { grid-template-columns: 1fr !important; }
+          .hero-h1 { font-size: 2.6rem; }
+          .cats-grid { grid-template-columns: repeat(2, 1fr); }
+          .how-grid { grid-template-columns: 1fr; }
         }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
       `}</style>
 
       {/* ── HERO ── */}
-      <section style={{ padding: 'clamp(3rem,7vw,6rem) clamp(1rem,5vw,5rem) clamp(2rem,5vw,4rem)', borderBottom: '1px solid #E5E5E5', background: '#fff' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', alignItems: 'center', maxWidth: 1200 }}>
-          <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '.5rem', fontSize: '.72rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#1A7A8A', marginBottom: '1.25rem' }}>
-              <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22AABB' }} />
-              Maldives&apos; Modern Job Platform
-            </div>
-            <h1 style={{ fontFamily: 'Fraunces, serif', fontSize: 'clamp(2.6rem,5vw,4.4rem)', fontWeight: 700, color: '#0A0A0A', lineHeight: 1.06, letterSpacing: '-.03em', marginBottom: '1.25rem' }}>
-              Find work.<br />
-              Hire <em style={{ fontStyle: 'italic', color: '#1A7A8A' }}>talent.</em><br />
-              In the Maldives.
-            </h1>
-            <p style={{ fontSize: '1rem', color: '#555', lineHeight: 1.75, maxWidth: 420, marginBottom: '2rem' }}>
-              The Maldives Job Lab — every sector, every atoll. Real salaries on every listing. No annual contracts.
-            </p>
-            <div className="hero-actions">
-              <Link href="/jobs" style={{ background: '#0A0A0A', color: '#fff', borderRadius: 9, padding: '.75rem 1.75rem', fontSize: '.875rem', fontWeight: 600, textDecoration: 'none' }}>
-                Browse Jobs →
-              </Link>
-              <Link href="/employers/pricing" style={{ background: '#fff', color: '#0A0A0A', border: '1.5px solid #E5E5E5', borderRadius: 9, padding: '.75rem 1.75rem', fontSize: '.875rem', fontWeight: 500, textDecoration: 'none' }}>
-                Post a Job — MVR 500/mo
-              </Link>
-            </div>
-            <div className="hero-trust">
-              {[{ num: '2,847', label: 'live jobs' }, { num: '340+', label: 'employers' }, { num: '21k+', label: 'job seekers' }, { num: '26', label: 'atolls' }].map((s, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '.4rem', fontSize: '.78rem', color: '#888' }}>
-                  {i > 0 && <span style={{ color: '#ddd' }}>|</span>}
-                  <span style={{ fontFamily: 'Fraunces, serif', fontWeight: 700, fontSize: '.95rem', color: '#0A0A0A' }}>{s.num}</span>
-                  {s.label}
+      <section className="hero-section">
+        <div className="hero-eyebrow fade-up">
+          <div className="hero-eyebrow-dot"></div>
+          Maldives&apos; Modern Job Platform
+        </div>
+        <h1 className="hero-h1 fade-up-2">
+          Find work.<br />
+          Hire <em>talent.</em><br />
+          In the Maldives.
+        </h1>
+        <p className="hero-sub fade-up-3">
+          Every sector. Every atoll. Real salaries on every listing — no annual contracts, no hidden fees.
+        </p>
+        <div className="hero-actions fade-up-4">
+          <Link href="/jobs" className="btn-primary">Browse 2,847 Jobs →</Link>
+          <Link href="/employers/pricing" className="btn-secondary">Post a Job — MVR 500/mo</Link>
+        </div>
+        <div className="hero-trust fade-up-4">
+          {[
+            { num: '2,847', label: 'Live vacancies' },
+            null,
+            { num: '340+', label: 'Verified employers' },
+            null,
+            { num: '21,000+', label: 'Job seekers' },
+            null,
+            { num: '26', label: 'Atolls covered' },
+          ].map((s, i) =>
+            s === null
+              ? <div key={i} className="htrust-div"></div>
+              : <div key={i} className="htrust-item">
+                  <span className="htrust-num">{s.num}</span>
+                  <span className="htrust-label">{s.label}</span>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right preview card — hidden on mobile */}
-          <div className="hero-preview">
-            <p style={{ fontSize: '.7rem', fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', color: '#888', marginBottom: '.25rem' }}>Latest postings</p>
-            {[
-              { icon: '🍽️', title: 'Head Chef — Asian Cuisine', co: 'Soneva Fushi · Baa Atoll', sal: 'USD 2,800–3,500' },
-              { icon: '🛎️', title: 'Front Office Manager', co: 'Anantara · North Malé Atoll', sal: 'USD 2,400–3,000' },
-              { icon: '💻', title: 'IT Systems Administrator', co: 'Bank of Maldives · Malé', sal: 'MVR 18k–22k' },
-              { icon: '🐠', title: 'Marine Biologist', co: 'Velaa Private Island · Noonu', sal: 'USD 2,000–2,800' },
-            ].map((job, i) => (
-              <div key={i} style={{ background: '#fff', border: '1px solid #E5E5E5', borderRadius: 10, padding: '1rem 1.1rem', display: 'flex', alignItems: 'center', gap: '.85rem' }}>
-                <div style={{ width: 38, height: 38, borderRadius: 8, background: '#F0F7F8', border: '1px solid #E5E5E5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem', flexShrink: 0 }}>{job.icon}</div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: '.85rem', fontWeight: 600, color: '#0A0A0A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{job.title}</div>
-                  <div style={{ fontSize: '.74rem', color: '#888', marginTop: '.1rem' }}>{job.co}</div>
-                </div>
-                <div style={{ fontFamily: 'Fraunces, serif', fontWeight: 700, fontSize: '.82rem', color: '#1A7A8A', whiteSpace: 'nowrap' }}>{job.sal}</div>
-              </div>
-            ))}
-            <div style={{ display: 'flex', gap: '.5rem', flexWrap: 'wrap' }}>
-              {['🏝️ Resort Jobs', '🏙️ Local Jobs', '🇲🇻 MV Only', '🏛️ Government'].map(tag => (
-                <Link key={tag} href="/jobs" style={{ background: '#fff', border: '1px solid #E5E5E5', borderRadius: 8, padding: '.5rem .85rem', fontSize: '.72rem', fontWeight: 500, color: '#555', textDecoration: 'none' }}>{tag}</Link>
-              ))}
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
       {/* ── TICKER ── */}
-      <div style={{ borderTop: '1px solid #E5E5E5', borderBottom: '1px solid #E5E5E5', padding: '.55rem 0', overflow: 'hidden', background: '#FBF8F3' }}>
-        <div style={{ display: 'flex', width: 'max-content', animation: 'ticker 35s linear infinite' }}>
+      <div className="ticker-wrap">
+        <div className="ticker-inner">
           {[...Array(4)].map((_, di) =>
-            ['Soneva Fushi', 'Four Seasons', 'Anantara', 'Velaa Private Island', 'Six Senses', 'Bank of Maldives', 'Trans Maldivian Airways', 'Kandima'].map((co, i) => (
-              <span key={`${di}-${i}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '.75rem', padding: '0 2rem', fontSize: '.75rem', color: '#666', whiteSpace: 'nowrap' }}>
-                <span style={{ fontWeight: 600, color: '#0A0A0A' }}>{co}</span>
+            ['Soneva Fushi', 'Four Seasons', 'Anantara', 'Velaa Private Island', 'Six Senses', 'Bank of Maldives', 'Trans Maldivian Airways', 'Kandima', 'Atmosphere Hotels'].map((co, i) => (
+              <span key={`${di}-${i}`} className="ticker-item">
+                <span className="ticker-co">{co}</span>
                 is hiring
-                <span style={{ background: '#E85D3A', color: '#fff', borderRadius: 100, padding: '.08rem .45rem', fontSize: '.62rem', fontWeight: 700 }}>NEW</span>
-                <span style={{ color: '#ccc' }}>·</span>
+                <span className="ticker-badge">NEW</span>
+                <span className="ticker-sep">·</span>
               </span>
             ))
           )}
@@ -123,195 +199,183 @@ export default function HomePage() {
       <JobsSection />
 
       {/* ── CATEGORIES ── */}
-      <section style={{ padding: 'clamp(2.5rem,5vw,4.5rem) clamp(1rem,5vw,5rem)', background: '#FBF8F3' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
+      <section className="sec sec-gray">
+        <div className="sec-hd">
           <div>
-            <span style={{ fontSize: '.7rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#1A7A8A', display: 'block', marginBottom: '.35rem' }}>Explore by Role</span>
-            <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 700, fontSize: 'clamp(1.5rem,2.5vw,2rem)', color: '#0A0A0A', letterSpacing: '-.02em' }}>Browse by Department</h2>
+            <span className="sec-label">Explore by role</span>
+            <h2 className="sec-title">Browse by Department</h2>
           </div>
-          <Link href="/jobs" style={{ fontSize: '.8rem', fontWeight: 500, color: '#1A7A8A', textDecoration: 'none' }}>View all departments →</Link>
+          <Link href="/jobs" className="sec-link">View all departments →</Link>
         </div>
         <div className="cats-grid">
           {CATEGORIES.map(cat => (
-            <Link key={cat.name} href={`/jobs?category=${encodeURIComponent(cat.name)}`} style={{ border: '1.5px solid #E5E5E5', borderRadius: 10, padding: '.85rem 1rem', background: '#fff', display: 'flex', flexDirection: 'column', gap: '.35rem', textDecoration: 'none', color: 'inherit' }}>
-              <span style={{ fontSize: '1.3rem', lineHeight: 1 }}>{cat.icon}</span>
-              <span style={{ fontSize: '.78rem', fontWeight: 600, color: '#0A0A0A', lineHeight: 1.3 }}>{cat.name}</span>
-              <span style={{ fontSize: '.68rem', color: '#888' }}>{cat.count} jobs</span>
+            <Link key={cat.name} href={`/jobs?category=${encodeURIComponent(cat.name)}`} className="cat-item">
+              <span className="cat-icon">{cat.icon}</span>
+              <span className="cat-name">{cat.name}</span>
+              <span className="cat-count">{cat.count} jobs</span>
             </Link>
           ))}
         </div>
       </section>
 
       {/* ── WHY US ── */}
-      <section style={{ padding: 'clamp(2.5rem,5vw,4.5rem) clamp(1rem,5vw,5rem)', background: '#fff' }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <span style={{ fontSize: '.7rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#1A7A8A', display: 'block', marginBottom: '.35rem' }}>Why Switch</span>
-          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 700, fontSize: 'clamp(1.5rem,2.5vw,2rem)', color: '#0A0A0A', letterSpacing: '-.02em' }}>Built better than the rest</h2>
-        </div>
-        <div className="why-grid">
+      <section className="sec sec-white" style={{ paddingTop: 0, paddingBottom: 0 }}>
+        <div className="feature-strip">
           {[
-            { icon: '💰', title: 'Salary on every listing', desc: 'Real salary ranges shown on every job card. No more clicking into a listing to see "Not Stated".', vs: 'Others hide salaries', we: 'Always transparent here' },
-            { icon: '📅', title: 'Monthly, not annual', desc: 'Post jobs from MVR 500/month. No yearly lock-in. Start, pause, or cancel anytime.', vs: 'Others charge annual fees upfront', we: 'Pay as you go' },
-            { icon: '📲', title: 'Telegram + Viber + WhatsApp', desc: 'New jobs auto-posted to all three communities the moment they go live. Zero manual work.', vs: 'Other platforms miss these channels', we: 'All 3 covered automatically' },
-            { icon: '🏝️', title: 'Resort + local, one platform', desc: 'No split sites. Resort, local, government — everything in one place, one search, one profile.', vs: 'Other platforms split resort and local', we: 'Unified in one platform' },
+            { icon: '💰', title: 'Salary on every listing', desc: 'Real salary ranges on every job card. No more "Not Stated".', vs: 'Others hide salaries', we: 'Always transparent' },
+            { icon: '📅', title: 'Monthly pricing', desc: 'MVR 500/month. No annual lock-in. Cancel anytime.', vs: 'Others: annual fees upfront', we: 'Pay as you go' },
+            { icon: '📲', title: 'Telegram · Viber · WhatsApp', desc: 'New jobs auto-posted to all three the moment they go live.', vs: 'Other platforms miss these', we: 'All 3 channels, automated' },
+            { icon: '🏝️', title: 'One platform', desc: 'Resort, local, government — everything in one search, one profile.', vs: 'Others split resort and local', we: 'Unified experience' },
           ].map((item, i) => (
-            <div key={i} style={{ padding: '1.5rem', borderRadius: 12, border: '1.5px solid #E5E5E5', background: '#fff' }}>
-              <div style={{ fontSize: '1.5rem', marginBottom: '.85rem' }}>{item.icon}</div>
-              <div style={{ fontFamily: 'Fraunces, serif', fontWeight: 600, fontSize: '.95rem', color: '#0A0A0A', marginBottom: '.4rem' }}>{item.title}</div>
-              <div style={{ fontSize: '.8rem', color: '#666', lineHeight: 1.7, marginBottom: '.75rem' }}>{item.desc}</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '.4rem', fontSize: '.72rem', color: '#1A7A8A', fontWeight: 500, flexWrap: 'wrap' }}>
-                <span style={{ textDecoration: 'line-through', color: '#ccc' }}>{item.vs}</span>
-                → {item.we}
-              </div>
+            <div key={i} className="feature-item">
+              <span className="fi-icon">{item.icon}</span>
+              <div className="fi-title">{item.title}</div>
+              <div className="fi-desc">{item.desc}</div>
+              <span className="fi-vs">{item.vs}</span>
+              <span className="fi-we">→ {item.we}</span>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── SALARY GUIDE ── */}
-      <section style={{ background: '#0D2B35', padding: 'clamp(2.5rem,5vw,4.5rem) clamp(1rem,5vw,5rem)' }}>
-        <div style={{ maxWidth: 540, marginBottom: '2rem' }}>
-          <span style={{ fontSize: '.7rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#22AABB', display: 'block', marginBottom: '.35rem' }}>Salary Transparency</span>
-          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 700, fontSize: 'clamp(1.5rem,2.5vw,2rem)', color: '#fff', letterSpacing: '-.02em', marginBottom: '.5rem' }}>What Jobs Pay in the Maldives</h2>
-          <p style={{ fontSize: '.9rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.75 }}>Real salary ranges by role — something no other platform here publishes. Resort packages include accommodation and meals.</p>
+      <section className="sec sec-teal">
+        <div style={{ maxWidth: 560, marginBottom: '3rem' }}>
+          <span className="sec-label sec-label-light">Salary transparency</span>
+          <h2 className="sec-title sec-title-light" style={{ marginTop: '.5rem' }}>What jobs pay<br />in the Maldives</h2>
+          <p className="sec-body sec-body-light" style={{ marginTop: '1rem' }}>
+            Real salary ranges by role — something no other platform here publishes openly. Resort packages include accommodation and meals.
+          </p>
         </div>
-        <div className="salary-grid">
+        <div className="salary-table">
           {SALARIES.map(s => (
-            <div key={s.role} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', padding: '.9rem 1.1rem', borderBottom: '1px solid rgba(255,255,255,0.06)', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
-              <span style={{ fontSize: '.82rem', color: 'rgba(255,255,255,0.6)' }}>{s.role}</span>
-              <span style={{ fontFamily: 'Fraunces, serif', fontWeight: 700, fontSize: '.88rem', color: '#22AABB', whiteSpace: 'nowrap' }}>{s.range}</span>
+            <div key={s.role} className="s-row">
+              <span className="s-role">{s.role}</span>
+              <span className="s-range">{s.range}</span>
             </div>
           ))}
         </div>
-        <p style={{ fontSize: '.72rem', color: 'rgba(255,255,255,0.25)', marginTop: '1.1rem', lineHeight: 1.6 }}>
+        <p style={{ fontSize: '.72rem', color: 'rgba(255,255,255,.2)', marginTop: '1.25rem', lineHeight: 1.6 }}>
           Ranges vary by employer and experience. Resort packages typically include accommodation, meals & annual flights. Updated July 2026.
         </p>
       </section>
 
       {/* ── EMPLOYERS ── */}
-      <section style={{ padding: 'clamp(2.5rem,5vw,4.5rem) clamp(1rem,5vw,5rem)', background: '#FBF8F3' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
+      <section className="sec sec-white">
+        <div className="sec-hd">
           <div>
-            <span style={{ fontSize: '.7rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#1A7A8A', display: 'block', marginBottom: '.35rem' }}>Top Hiring Partners</span>
-            <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 700, fontSize: 'clamp(1.5rem,2.5vw,2rem)', color: '#0A0A0A', letterSpacing: '-.02em' }}>Featured Employers</h2>
+            <span className="sec-label">Top hiring partners</span>
+            <h2 className="sec-title">Featured Employers</h2>
           </div>
-          <Link href="/companies" style={{ fontSize: '.8rem', fontWeight: 500, color: '#1A7A8A', textDecoration: 'none' }}>View all 340+ employers →</Link>
+          <Link href="/companies" className="sec-link">View all 340+ employers →</Link>
         </div>
         <div className="emp-rail">
           {EMPLOYERS.map(emp => (
-            <Link key={emp.name} href="/companies" style={{ background: '#fff', border: '1.5px solid #E5E5E5', borderRadius: 12, padding: '1.1rem', minWidth: 185, flexShrink: 0, textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
-              <div style={{ width: 44, height: 44, borderRadius: 9, background: '#F0F7F8', border: '1px solid #E5E5E5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem' }}>{emp.icon}</div>
-              <div style={{ fontSize: '.84rem', fontWeight: 600, color: '#0A0A0A', lineHeight: 1.3 }}>{emp.name}</div>
-              <div style={{ fontSize: '.7rem', color: '#888' }}>{emp.type}</div>
-              <div style={{ fontSize: '.7rem', fontWeight: 600, color: '#1A7A8A', display: 'flex', alignItems: 'center', gap: '.3rem' }}>
-                <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#22AABB', display: 'inline-block' }}></span>
-                {emp.open} open roles
-              </div>
+            <Link key={emp.name} href="/companies" className="emp-card">
+              <div className="emp-logo">{emp.icon}</div>
+              <div className="emp-name">{emp.name}</div>
+              <div className="emp-type">{emp.type}</div>
+              <div className="emp-open"><span className="emp-dot"></span>{emp.open} open roles</div>
             </Link>
           ))}
         </div>
       </section>
 
       {/* ── PRICING ── */}
-      <section style={{ padding: 'clamp(2.5rem,5vw,4.5rem) clamp(1rem,5vw,5rem)', background: '#fff' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
+      <section className="sec sec-gray">
+        <div className="sec-hd">
           <div>
-            <span style={{ fontSize: '.7rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#1A7A8A', display: 'block', marginBottom: '.35rem' }}>Simple Pricing</span>
-            <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 700, fontSize: 'clamp(1.5rem,2.5vw,2rem)', color: '#0A0A0A', letterSpacing: '-.02em' }}>No annual lock-in. Ever.</h2>
+            <span className="sec-label">Simple pricing</span>
+            <h2 className="sec-title">No annual lock-in.<br />Ever.</h2>
           </div>
-          <Link href="/employers/pricing" style={{ fontSize: '.8rem', fontWeight: 500, color: '#1A7A8A', textDecoration: 'none' }}>Compare all features →</Link>
+          <Link href="/employers/pricing" className="sec-link">Compare all features →</Link>
         </div>
         <div className="pricing-grid">
           {[
-            { name: 'Free', price: 'MVR 0', per: 'forever free', featured: false, features: ['2 active job listings', 'Online applications', 'Basic employer profile'], cta: 'Get Started' },
-            { name: 'Pro', price: 'MVR 500', per: 'per month · cancel anytime', featured: true, features: ['20 active job listings', 'Telegram + Viber + WhatsApp posting', 'Applicant tracking dashboard', 'Featured on homepage', 'Priority support'], cta: 'Start Free Trial' },
-            { name: 'Unlimited', price: 'MVR 1,200', per: 'per month · cancel anytime', featured: false, features: ['Unlimited job listings', 'CV database access', 'Everything in Pro', 'Bulk hiring tools', 'Dedicated account manager'], cta: 'Contact Us' },
+            { name: 'Free', price: 'MVR 0', per: 'Free forever', featured: false, badge: null, features: ['2 active job listings', 'Online applications', 'Basic employer profile'], cta: 'Get started' },
+            { name: 'Pro', price: 'MVR 500', per: 'Per month · cancel anytime', featured: true, badge: 'Most popular', features: ['20 active job listings', 'Telegram + Viber + WhatsApp auto-posting', 'Applicant tracking dashboard', 'Featured on homepage', 'Priority support'], cta: 'Start free trial' },
+            { name: 'Unlimited', price: 'MVR 1,200', per: 'Per month · cancel anytime', featured: false, badge: null, features: ['Unlimited job listings', 'CV database access', 'Everything in Pro', 'Bulk hiring tools', 'Dedicated account manager'], cta: 'Contact us' },
           ].map((plan, i) => (
-            <div key={i} style={{ border: `1.5px solid ${plan.featured ? '#1A7A8A' : '#E5E5E5'}`, borderRadius: 12, padding: '1.5rem', background: plan.featured ? '#0D2B35' : '#fff', position: 'relative' }}>
-              {plan.featured && (
-                <div style={{ position: 'absolute', top: -1, left: '50%', transform: 'translateX(-50%)', background: '#E85D3A', color: '#fff', fontSize: '.65rem', fontWeight: 700, letterSpacing: '.05em', padding: '.2rem .75rem', borderRadius: '0 0 8px 8px', whiteSpace: 'nowrap' }}>MOST POPULAR</div>
-              )}
-              <div style={{ fontSize: '.72rem', fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', color: plan.featured ? 'rgba(255,255,255,0.5)' : '#888', marginBottom: '.5rem' }}>{plan.name}</div>
-              <div style={{ fontFamily: 'Fraunces, serif', fontWeight: 700, fontSize: '2rem', color: plan.featured ? '#fff' : '#0A0A0A', lineHeight: 1, marginBottom: '.2rem' }}>{plan.price}</div>
-              <div style={{ fontSize: '.75rem', color: plan.featured ? 'rgba(255,255,255,0.4)' : '#888', marginBottom: '1rem' }}>{plan.per}</div>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '.5rem', marginBottom: '1.25rem' }}>
+            <div key={i} className={`price-card${plan.featured ? ' featured' : ''}`}>
+              {plan.badge && <span className="price-badge">{plan.badge}</span>}
+              <div className="price-name">{plan.name}</div>
+              <div className="price-amount">{plan.price}</div>
+              <div className="price-per">{plan.per}</div>
+              <ul className="price-features">
                 {plan.features.map((f, fi) => (
-                  <li key={fi} style={{ fontSize: '.78rem', color: plan.featured ? 'rgba(255,255,255,0.6)' : '#555', display: 'flex', alignItems: 'flex-start', gap: '.4rem' }}>
-                    <span style={{ color: '#1A7A8A', flexShrink: 0 }}>✓</span> {f}
-                  </li>
+                  <li key={fi}><span className="pf-check">✓</span>{f}</li>
                 ))}
               </ul>
-              <button style={{ width: '100%', borderRadius: 8, padding: '.6rem', fontSize: '.8rem', fontWeight: 600, cursor: 'pointer', border: plan.featured ? 'none' : '1.5px solid #E5E5E5', background: plan.featured ? '#E85D3A' : '#fff', color: plan.featured ? '#fff' : '#0A0A0A', fontFamily: 'Inter, sans-serif' }}>{plan.cta}</button>
+              <button className="btn-price">{plan.cta}</button>
             </div>
           ))}
         </div>
-        <p style={{ fontSize: '.75rem', color: '#888', marginTop: '1.25rem', textAlign: 'center' }}>
-          Featured listing boost: MVR 150 / 7 days · BML and card payments accepted
+        <p style={{ fontSize: '.75rem', color: '#aaa', marginTop: '1.5rem', textAlign: 'center' }}>
+          Featured listing boost: MVR 150 / 7 days · BML and international card payments accepted
         </p>
       </section>
 
       {/* ── COMMUNITY ── */}
-      <section style={{ padding: 'clamp(2.5rem,5vw,4.5rem) clamp(1rem,5vw,5rem)', background: '#FBF8F3' }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <span style={{ fontSize: '.7rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#1A7A8A', display: 'block', marginBottom: '.35rem' }}>Community Alerts</span>
-          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 700, fontSize: 'clamp(1.5rem,2.5vw,2rem)', color: '#0A0A0A', letterSpacing: '-.02em' }}>Jobs delivered to you</h2>
+      <section className="sec sec-white">
+        <div className="sec-hd">
+          <div>
+            <span className="sec-label">Community alerts</span>
+            <h2 className="sec-title">Jobs delivered to you</h2>
+          </div>
         </div>
-        <div className="community-grid">
+        <div className="comm-grid">
           {[
-            { icon: '✈️', name: 'Telegram Channel', desc: 'New jobs posted instantly. Subscribe and get notified the second a matching role goes live.', cta: 'Join Channel' },
-            { icon: '📱', name: 'Viber Community', desc: 'The most popular channel in Maldives. Daily job updates, career tips, and employer news.', cta: 'Join Community' },
-            { icon: '💬', name: 'WhatsApp Channel', desc: 'Weekly job digest straight to WhatsApp. Curated by sector — resort, local, or government.', cta: 'Follow Channel' },
+            { icon: '✈️', name: 'Telegram Channel', desc: 'New jobs posted the second they go live. The fastest way to stay ahead of every opening.', cta: 'Join Channel' },
+            { icon: '📱', name: 'Viber Community', desc: 'The most-used platform in Maldives. Daily updates, career tips, and direct employer news.', cta: 'Join Community' },
+            { icon: '💬', name: 'WhatsApp Channel', desc: 'Weekly curated digest by sector — resort, local, or government. Straight to your phone.', cta: 'Follow Channel' },
           ].map((c, i) => (
-            <div key={i} style={{ borderRadius: 12, padding: '1.5rem', border: '1.5px solid #E5E5E5', background: '#fff', display: 'flex', flexDirection: 'column', gap: '.6rem' }}>
-              <div style={{ fontSize: '1.75rem' }}>{c.icon}</div>
-              <div style={{ fontFamily: 'Fraunces, serif', fontWeight: 600, fontSize: '.95rem', color: '#0A0A0A' }}>{c.name}</div>
-              <div style={{ fontSize: '.78rem', color: '#666', lineHeight: 1.6 }}>{c.desc}</div>
-              <Link href="#" style={{ fontSize: '.75rem', fontWeight: 600, color: '#1A7A8A', textDecoration: 'none', marginTop: 'auto' }}>{c.cta} →</Link>
+            <div key={i} className="comm-card">
+              <div className="comm-icon">{c.icon}</div>
+              <div className="comm-name">{c.name}</div>
+              <div className="comm-desc">{c.desc}</div>
+              <Link href="#" className="comm-link">{c.cta} →</Link>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── HOW IT WORKS ── */}
-      <section style={{ background: '#0D2B35', padding: 'clamp(2.5rem,5vw,4.5rem) clamp(1rem,5vw,5rem)' }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <span style={{ fontSize: '.7rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#22AABB', display: 'block', marginBottom: '.35rem' }}>Simple Process</span>
-          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 700, fontSize: 'clamp(1.5rem,2.5vw,2rem)', color: '#fff', letterSpacing: '-.02em' }}>Hired in 4 steps</h2>
+      <section className="sec sec-teal">
+        <div style={{ marginBottom: '3rem' }}>
+          <span className="sec-label sec-label-light">Simple process</span>
+          <h2 className="sec-title sec-title-light" style={{ marginTop: '.5rem' }}>Hired in 4 steps</h2>
         </div>
         <div className="how-grid">
           {[
-            { num: '01', icon: '🔍', title: 'Search & Filter', desc: 'Filter by atoll, sector, salary, or job type. Results update instantly — no page reloads.' },
-            { num: '02', icon: '📋', title: 'Build Your Profile', desc: 'Upload your CV once. Employers can find you even when you\'re not actively looking.' },
+            { num: '01', icon: '🔍', title: 'Search & Filter', desc: 'By atoll, sector, salary, or type. Results update instantly — no page reloads.' },
+            { num: '02', icon: '📋', title: 'Build Your Profile', desc: "Upload your CV once. Employers can find you even when you're not actively looking." },
             { num: '03', icon: '🚀', title: 'One-Click Apply', desc: 'Apply with your saved profile. Track every application in your dashboard.' },
-            { num: '04', icon: '🔔', title: 'Get Alerts', desc: 'New matching jobs by Telegram or email the moment they\'re posted.' },
+            { num: '04', icon: '🔔', title: 'Get Alerts', desc: "Matching jobs by Telegram or email the moment they're posted. Never miss a role." },
           ].map((step, i) => (
-            <div key={i} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '1.5rem' }}>
-              <div style={{ fontFamily: 'Fraunces, serif', fontWeight: 700, fontSize: '2rem', color: 'rgba(255,255,255,0.07)', lineHeight: 1, marginBottom: '.75rem' }}>{step.num}</div>
-              <div style={{ width: 38, height: 38, borderRadius: 8, background: 'rgba(34,170,187,0.15)', border: '1px solid rgba(34,170,187,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', marginBottom: '.85rem' }}>{step.icon}</div>
-              <div style={{ fontFamily: 'Fraunces, serif', fontWeight: 600, fontSize: '.9rem', color: '#fff', marginBottom: '.4rem' }}>{step.title}</div>
-              <div style={{ fontSize: '.78rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.7 }}>{step.desc}</div>
+            <div key={i} className="how-card">
+              <div className="how-num">{step.num}</div>
+              <span className="how-icon">{step.icon}</span>
+              <div className="how-title">{step.title}</div>
+              <div className="how-desc">{step.desc}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── CTA BAND ── */}
-      <div style={{ background: '#E85D3A', padding: 'clamp(2.5rem,5vw,4rem) clamp(1rem,5vw,5rem)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '2rem', flexWrap: 'wrap' }}>
-        <div>
-          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 700, fontSize: 'clamp(1.4rem,2.5vw,1.9rem)', color: '#fff', letterSpacing: '-.02em', marginBottom: '.3rem' }}>
-            Hiring? Reach 21,000+ Maldivian candidates.
-          </h2>
-          <p style={{ fontSize: '.88rem', color: 'rgba(255,255,255,0.7)' }}>Free trial · No annual contract · Post in under 10 minutes · MVR 500/month</p>
+      {/* ── CTA ── */}
+      <section className="cta-section">
+        <span className="sec-label cta-label">For employers</span>
+        <h2 className="cta-title">
+          Reach 21,000+ candidates<br />across every atoll.
+        </h2>
+        <p className="cta-sub">
+          Free trial · No annual contract · Live in under 10 minutes · MVR 500/month
+        </p>
+        <div className="cta-actions">
+          <Link href="/employers/post" className="btn-cta-primary">Post a Job — Free Trial</Link>
+          <Link href="/employers/pricing" className="btn-cta-secondary">See Pricing</Link>
         </div>
-        <div className="cta-band-btns">
-          <Link href="/employers/post" style={{ background: '#fff', color: '#E85D3A', borderRadius: 9, padding: '.65rem 1.4rem', fontSize: '.875rem', fontWeight: 700, textDecoration: 'none', display: 'block' }}>
-            Post a Job — Free Trial
-          </Link>
-          <Link href="/employers/pricing" style={{ background: 'transparent', color: '#fff', border: '1.5px solid rgba(255,255,255,0.4)', borderRadius: 9, padding: '.65rem 1.4rem', fontSize: '.875rem', fontWeight: 500, textDecoration: 'none', display: 'block' }}>
-            See Pricing
-          </Link>
-        </div>
-      </div>
+      </section>
     </>
   )
 }
