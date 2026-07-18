@@ -545,11 +545,7 @@ function JobsContent() {
 
 export default function JobsPage() {
   return (
-    <Suspense fallback={
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh', fontFamily: 'Fraunces, serif', color: '#aaa' }}>
-        Loading jobs…
-      </div>
-    }>
+    <Suspense>
       <JobsContent />
     </Suspense>
   )
